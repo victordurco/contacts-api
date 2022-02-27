@@ -1,11 +1,11 @@
 
-class InvalidContact extends Error {
+class emailAlreadyExists extends Error {
   constructor() {
-    super('Invalid contact');
-    this.name = 'InvalidContact';
+    super('Email already exists');
+    this.name = 'emailAlreadyExists';
   }
 }
 
 export { 
-    InvalidContact, 
+  emailAlreadyExists, 
 }

@@ -6,4 +6,6 @@ const router = Router();
 
 router.get('/', contactController.getContacts);
 
+router.post('/', contactController.createContact);
+
 export default router;
