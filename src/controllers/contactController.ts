@@ -26,3 +26,21 @@ export async function createContact (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+export async function updateContact (req: Request, res: Response, next: NextFunction): Promise<any>{
+  const { contactId } = req.params;
+  const id = Number(contactId);
+  if (!id || id < 1 || typeof id !== 'number') return res.sendStatus(400);
+
+  const validation = newContactSchema.validate(req.body);
+  if (validation.error) return res.sendStatus(400);
+
+  try {
+    const contactBody: Contact = req.body;
+    await contactService.updateContact(id, contactBody);
+    return res.sendStatus(204);
+  } catch (error) {
+    if (error.name === "emailAlreadyExists") return res.status(409).send(error.message);
+    next(error);
+  }
+};

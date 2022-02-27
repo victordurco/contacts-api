@@ -1,6 +1,9 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column
+  Entity, PrimaryGeneratedColumn, Column,
 } from "typeorm";
+
+import { Contact } from '../protocols/Contact';
+import * as contactService from "../services/contactService";
 
 @Entity('contacts')
 export default class CourseEntity {
@@ -15,5 +18,5 @@ export default class CourseEntity {
 
   @Column()
   email: string;
-
+  
 }
