@@ -10,7 +10,7 @@ You can check the front-end application here:
 https://github.com/victordurco/contacts
 
 And the working application here:
-https://pagaleve-contacts-api.herokuapp.com/contacts
+https://pagaleve-contacts-api.herokuapp.com
 
 ---
 
