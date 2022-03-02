@@ -59,3 +59,10 @@ export async function searchContacts(searchedName: string): Promise<Contact[]> {
     
     return contacts;
 }
+
+export async function deleteContactByEmail(email: string): Promise<void> {
+  const contact: Contact[] = await getContactByEmail(email);
+  if (!contact[0]) throw new InvalidContact();
+
+  await getRepository(ContactEntity).delete({ email: email });
+}

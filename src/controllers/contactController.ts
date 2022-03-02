@@ -82,3 +82,15 @@ export async function searchContacts(req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+export async function deleteContactByEmail (req: Request, res: Response, next: NextFunction): Promise<any>{
+  const { email } = req.body;
+
+  try {
+    await contactService.deleteContactByEmail(email);
+    return res.sendStatus(200);
+  } catch (error) {
+    if (error.name === "invalidContact") return res.status(404).send(error.message);
+    next(error);
+  }
+};
