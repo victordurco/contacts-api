@@ -8,6 +8,8 @@ router.get('/', contactController.getContacts);
 
 router.get('/:contactId', contactController.getContactInfo);
 
+router.delete('/:contactId', contactController.deleteContact);
+
 router.post('/', contactController.createContact);
 
 router.put('/:contactId', contactController.updateContact);

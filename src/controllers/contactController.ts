@@ -59,3 +59,17 @@ export async function getContactInfo (req: Request, res: Response, next: NextFun
     next(error);
   }
 };
+
+export async function deleteContact (req: Request, res: Response, next: NextFunction): Promise<any>{
+  const { contactId } = req.params;
+  const id = Number(contactId);
+  if (!id || id < 1 || typeof id !== 'number') return res.sendStatus(400);
+
+  try {
+    await contactService.deleteContact(id);
+    return res.sendStatus(200);
+  } catch (error) {
+    if (error.name === "invalidContact") return res.status(404).send(error.message);
+    next(error);
+  }
+};

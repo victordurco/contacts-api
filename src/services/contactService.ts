@@ -43,4 +43,11 @@ export async function getById(id: number): Promise<Contact> {
   const result: Contact[] = await getRepository(ContactEntity).find({ id: id });
   if (!result[0]) throw new InvalidContact();
   return result[0]; 
+}
+  
+export async function deleteContact(id: number): Promise<void> {
+  const contact: Contact = await getById(id);
+  if (!contact) throw new InvalidContact();
+
+  await getRepository(ContactEntity).delete({ id: id });
   }
