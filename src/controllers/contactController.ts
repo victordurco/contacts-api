@@ -44,3 +44,18 @@ export async function updateContact (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+
+export async function getContactInfo (req: Request, res: Response, next: NextFunction): Promise<any>{
+  const { contactId } = req.params;
+  const id = Number(contactId);
+  if (!id || id < 1 || typeof id !== 'number') return res.sendStatus(400);
+
+  try {
+    const contact: Contact = await contactService.getById(id);
+    return res.status(200).send(contact);
+  } catch (error) {
+    if (error.name === "invalidContact") return res.status(404).send(error.message);
+    next(error);
+  }
+};

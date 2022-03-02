@@ -1,7 +1,7 @@
-import { getRepository, getManager } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import ContactEntity from '../entities/ContactEntity';
-import { emailAlreadyExists } from '../errors/contactErrors';
+import { EmailAlreadyExists, InvalidContact } from '../errors/contactErrors';
 
 import { Contact } from '../protocols/Contact';
 
@@ -18,7 +18,7 @@ export async function getContactByEmail(email: string): Promise<Contact[]> {
 
 export async function createContact(contact: Contact): Promise<Contact> {
     const usersWithThisEmail: Contact[] = await getContactByEmail(contact.email);
-    if (usersWithThisEmail.length) throw new emailAlreadyExists();
+    if (usersWithThisEmail.length) throw new EmailAlreadyExists();
 
     const newContact: Contact = await getRepository(ContactEntity).create(contact);
     await getRepository(ContactEntity).save(newContact);
@@ -30,7 +30,7 @@ export async function updateContact(id: number, updatedContact: Contact): Promis
 
     let contactToUpdate: Contact = await getRepository(ContactEntity).findOne({ where: { id: id } });
 
-    if (usersWithThisEmail.length && usersWithThisEmail[0].email !== contactToUpdate.email) throw new emailAlreadyExists();
+    if (usersWithThisEmail.length && usersWithThisEmail[0].email !== contactToUpdate.email) throw new EmailAlreadyExists();
 
     contactToUpdate.id = id;
     contactToUpdate.name = updatedContact.name;
@@ -38,3 +38,9 @@ export async function updateContact(id: number, updatedContact: Contact): Promis
     contactToUpdate.email = updatedContact.email;
     await getRepository(ContactEntity).save(contactToUpdate);
 }
+
+export async function getById(id: number): Promise<Contact> {
+  const result: Contact[] = await getRepository(ContactEntity).find({ id: id });
+  if (!result[0]) throw new InvalidContact();
+  return result[0]; 
+  }
