@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { getRepository, Like } from 'typeorm';
 
 import ContactEntity from '../entities/ContactEntity';
 import { EmailAlreadyExists, InvalidContact } from '../errors/contactErrors';
@@ -50,4 +50,12 @@ export async function deleteContact(id: number): Promise<void> {
   if (!contact) throw new InvalidContact();
 
   await getRepository(ContactEntity).delete({ id: id });
-  }
+}
+  
+export async function searchContacts(searchedName: string): Promise<Contact[]> {
+    const contacts: Contact[] = await getRepository(ContactEntity).find({
+    name: Like(`%${searchedName}%`)
+});
+    
+    return contacts;
+}

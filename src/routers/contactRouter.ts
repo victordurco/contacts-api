@@ -10,6 +10,8 @@ router.get('/:contactId', contactController.getContactInfo);
 
 router.delete('/:contactId', contactController.deleteContact);
 
+router.post('/search', contactController.searchContacts);
+
 router.post('/', contactController.createContact);
 
 router.put('/:contactId', contactController.updateContact);

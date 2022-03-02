@@ -73,3 +73,12 @@ export async function deleteContact (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+export async function searchContacts(req: Request, res: Response, next: NextFunction): Promise<any>{
+  try {
+    const contacts: Contact[] =  await contactService.searchContacts(req.body.name);
+    return res.status(200).send(contacts);
+  } catch (error) {
+    next(error);
+  }
+};
